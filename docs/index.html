@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>北町雨水貯留施設 貯留量ログ</title>
+    <meta name="description" content="武蔵野市 北町雨水貯留施設の貯留量を長期の時系列で表示する（10分間隔で自動収集）" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>北町雨水貯留施設 貯留量ログ</h1>
+      <p class="sub">
+        武蔵野市の
+        <a href="https://public.ysuishin.com/opendata/suishin/13/203/index.html" target="_blank" rel="noopener">
+          リアルタイム公開データ</a
+        >
+        を10分間隔で収集し、長期の時系列で表示する。
+      </p>
+    </header>
+
+    <section class="latest" id="latest" hidden>
+      <div class="stat">
+        <span class="label">最新の貯留量</span>
+        <span class="value"><b id="latestStorage">–</b> m³ <small>/ 4500</small></span>
+      </div>
+      <div class="stat">
+        <span class="label">貯留施設水位</span>
+        <span class="value"><b id="latestLevel">–</b> m <small>/ 29.5</small></span>
+      </div>
+      <div class="stat">
+        <span class="label">降水強度</span>
+        <span class="value"><b id="latestRain">–</b> mm/h</span>
+      </div>
+      <div class="stat">
+        <span class="label">観測時刻</span>
+        <span class="value"><b id="latestTime">–</b></span>
+      </div>
+    </section>
+
+    <section class="controls">
+      <div class="range" role="group" aria-label="表示期間">
+        <button data-range="1" class="active">24時間</button>
+        <button data-range="7">7日</button>
+        <button data-range="30">30日</button>
+        <button data-range="0">全期間</button>
+      </div>
+      <label class="toggle"><input type="checkbox" id="showLevel" /> 水位を重ねる</label>
+      <label class="toggle"><input type="checkbox" id="showRain" checked /> 降水強度を重ねる</label>
+    </section>
+
+    <section class="chart-wrap">
+      <canvas id="chart" aria-label="貯留量の時系列グラフ" role="img"></canvas>
+      <p class="hint">ドラッグで範囲選択して拡大 / ダブルクリックで戻る / ホイール・ピンチでズーム</p>
+    </section>
+
+    <footer>
+      <p id="meta">読み込み中…</p>
+      <p>
+        データ列の対応（水位 / 貯留量 / 降水強度）は元サイトの JavaScript から推定したもの。
+        過去にさかのぼった収集はできないため、記録はこのサイトの稼働開始以降のぶんだけ。
+      </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

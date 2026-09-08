@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>北町雨水貯留施設 貯留量ログ（プレビュー）</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>北町雨水貯留施設 貯留量ログ</h1>
+      <p class="sub">
+        ※これはローカルプレビュー（埋め込みの初期データを表示）。GitHub Pages に公開すると10分間隔で自動更新される。
+      </p>
+    </header>
+
+    <section class="latest" id="latest" hidden>
+      <div class="stat">
+        <span class="label">最新の貯留量</span>
+        <span class="value"><b id="latestStorage">–</b> m³ <small>/ 4500</small></span>
+      </div>
+      <div class="stat">
+        <span class="label">貯留施設水位</span>
+        <span class="value"><b id="latestLevel">–</b> m <small>/ 29.5</small></span>
+      </div>
+      <div class="stat">
+        <span class="label">降水強度</span>
+        <span class="value"><b id="latestRain">–</b> mm/h</span>
+      </div>
+      <div class="stat">
+        <span class="label">観測時刻</span>
+        <span class="value"><b id="latestTime">–</b></span>
+      </div>
+    </section>
+
+    <section class="controls">
+      <div class="range" role="group" aria-label="表示期間">
+        <button data-range="1" class="active">24時間</button>
+        <button data-range="7">7日</button>
+        <button data-range="30">30日</button>
+        <button data-range="0">全期間</button>
+      </div>
+      <label class="toggle"><input type="checkbox" id="showLevel" /> 水位を重ねる</label>
+      <label class="toggle"><input type="checkbox" id="showRain" checked /> 降水強度を重ねる</label>
+    </section>
+
+    <section class="chart-wrap">
+      <canvas id="chart" aria-label="貯留量の時系列グラフ" role="img"></canvas>
+      <p class="hint">ドラッグで範囲選択して拡大 / ダブルクリックで戻る / ホイール・ピンチでズーム</p>
+    </section>
+
+    <footer>
+      <p id="meta">読み込み中…</p>
+    </footer>
+
+    <script>
+      // 収集開始時点の初期データ（本番では docs/data/history.csv が使われる）
+      window.SEED_CSV = `datetime,water_level_m,storage_m3,rainfall_mm_h
+2026-09-08T20:00:17+09:00,0.46,70,0.34
+2026-09-08T20:10:37+09:00,0.46,70,0.34
+2026-09-08T20:20:57+09:00,0.46,70,0.71
+2026-09-08T20:28:06+09:00,0.46,70,0.82
+2026-09-08T20:32:07+09:00,0.46,70,0.95
+2026-09-08T20:40:47+09:00,0.46,70,1.40
+2026-09-08T20:44:06+09:00,0.46,74,1.58
+2026-09-08T20:52:33+09:00,0.46,70,2.08
+2026-09-08T20:56:16+09:00,0.52,79,2.57
+2026-09-08T21:08:33+09:00,0.84,127,3.00
+2026-09-08T21:11:33+09:00,1.21,184,3.06
+2026-09-08T21:14:36+09:00,1.64,250,3.20
+2026-09-08T21:17:36+09:00,2.31,351,3.40
+2026-09-08T21:20:38+09:00,3.26,497,3.36
+2026-09-08T21:23:39+09:00,4.38,668,3.33
+2026-09-08T21:26:41+09:00,5.42,826,3.42
+2026-09-08T21:27:41+09:00,5.77,884,3.51`;
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
